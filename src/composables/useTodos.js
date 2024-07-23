@@ -76,6 +76,7 @@ const rawTodos = ref([
   { uuid: crypto.randomUUID(), category_id: "cat3", todo: "Todo 7 On Going" },
   { uuid: crypto.randomUUID(), category_id: "cat3", todo: "Todo 8 On Going" },
 ]);
+const currentTodo = ref("");
 
 let todoToTransfer = {};
 const dragData = () => {
@@ -119,6 +120,10 @@ const useTodos = () => {
       return { ...todo, category_name: category.category_name };
     });
   });
-  return { todos, categories, updateCategory, dragData };
+
+  const getTodo = (uuid) => {
+    return rawTodos.value.find((todo) => todo.uuid == uuid);
+  };
+  return { todos, categories, updateCategory, getTodo, dragData, currentTodo };
 };
 export default useTodos;

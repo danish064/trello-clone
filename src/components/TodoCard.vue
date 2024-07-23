@@ -13,7 +13,7 @@ const props = defineProps({
   },
 });
 const { category_id, category_name } = props.category;
-const { updateCategory, dragData } = useTodos();
+const { updateCategory, dragData, currentTodo } = useTodos();
 
 const showSkeletonForNewTodo = ref(false);
 
