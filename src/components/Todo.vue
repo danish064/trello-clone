@@ -37,17 +37,19 @@ const handleOnDragEnd = (e) => {
 <template>
   <div
     v-if="isSkeleton"
-    class="pointer-events-none w-full cursor-pointer rounded-md bg-stone-200 px-2 py-5"
+    class="pointer-events-none w-full cursor-pointer rounded-md bg-[#282E33] px-2 py-5"
   ></div>
-  <button
+  <div
     v-else
     @click="currentTodo = todo.uuid"
     draggable="true"
     :uuid="todo.uuid"
     :ondragstart="handleOnDragStart"
     :ondragend="handleOnDragEnd"
-    class="w-full cursor-pointer rounded-md bg-stone-300 px-2 py-2 text-left shadow-md shadow-stone-700 hover:bg-stone-200"
+    class="w-full cursor-pointer rounded-md bg-[#282E33] px-2 py-2 hover:outline hover:outline-2 hover:outline-cyan-500"
   >
-    {{ todo.todo }}
-  </button>
+    <div class="text-left text-sm font-medium">
+      {{ todo.todo }}
+    </div>
+  </div>
 </template>

@@ -4,9 +4,9 @@ import { RouterView } from "vue-router";
 </script>
 
 <template>
-  <div class="flex h-screen w-screen flex-col gap-2 bg-stone-400">
+  <div class="flex h-screen w-screen flex-col text-[#9fadbc]">
     <Header />
-    <div class="h-full overflow-hidden bg-stone-200">
+    <div class="h-full overflow-hidden">
       <RouterView />
     </div>
   </div>
