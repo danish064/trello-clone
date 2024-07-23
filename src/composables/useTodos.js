@@ -76,6 +76,24 @@ const rawTodos = ref([
   { uuid: crypto.randomUUID(), category_id: "cat3", todo: "Todo 7 On Going" },
   { uuid: crypto.randomUUID(), category_id: "cat3", todo: "Todo 8 On Going" },
 ]);
+
+let todoToTransfer = {};
+const dragData = () => {
+  function hasData() {
+    return Object.keys(todoToTransfer).length;
+  }
+  function getData() {
+    // console.log(todoToTransfer);
+    return todoToTransfer;
+  }
+  function setData(todo) {
+    todoToTransfer = todo;
+    // console.log(todoToTransfer);
+  }
+
+  return { hasData, getData, setData };
+};
+
 const useTodos = () => {
   const updateCategory = (id, cat_id) => {
     const index = rawTodos.value.findIndex((todo) => {
@@ -101,6 +119,6 @@ const useTodos = () => {
       return { ...todo, category_name: category.category_name };
     });
   });
-  return { todos, categories, updateCategory };
+  return { todos, categories, updateCategory, dragData };
 };
 export default useTodos;

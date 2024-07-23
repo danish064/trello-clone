@@ -1,4 +1,5 @@
 <script setup>
+import { ref } from "vue";
 import useTodos from "../composables/useTodos";
 import Todo from "./Todo.vue";
 const props = defineProps({
@@ -12,31 +13,59 @@ const props = defineProps({
   },
 });
 const { category_id, category_name } = props.category;
-const { updateCategory } = useTodos();
-const handleTodoDrop = (e) => {
-  // if (e) console.log(e);
-  // console.log("Dragover");
-  const incommingTodoId = JSON.parse(e.dataTransfer.getData("todo_id"));
-  console.log(incommingTodoId);
-  updateCategory(incommingTodoId, category_id);
+const { updateCategory, dragData } = useTodos();
+
+const showSkeletonForNewTodo = ref(false);
+
+const handleOnDrop = (e) => {
+  const newTodo = dragData().getData();
+  updateCategory(newTodo.uuid, category_id);
+  showSkeletonForNewTodo.value = false;
+};
+const handleOnDragOver = (e) => {
+  e.preventDefault();
+};
+const handleOnDragEnter = (e) => {
+  const newTodo = dragData().getData();
+  if (newTodo.category_id == props.category.category_id) {
+  } else {
+    showSkeletonForNewTodo.value = true;
+  }
+};
+const handleOnDragLeave = (e) => {
+  const newTodo = dragData().getData();
+  if (newTodo.category_id == props.category.category_id) {
+  } else {
+    showSkeletonForNewTodo.value = false;
+  }
 };
 </script>
 <template>
   <div
-    :ondragover="
-      (e) => {
-        e.preventDefault();
-      }
-    "
-    :ondrop="handleTodoDrop"
+    :ondragenter="handleOnDragEnter"
+    :ondragover="handleOnDragOver"
+    :ondragleave="handleOnDragLeave"
+    :ondrop="handleOnDrop"
     class="flex w-[360px] min-w-[360px] flex-col gap-6 rounded-lg bg-stone-400 px-4 py-4"
   >
-    <div class="text-xl font-medium">
+    <div class="pointer-events-none text-xl font-medium">
       {{ category_name }}
     </div>
-    <div class="flex flex-col gap-3 overflow-auto pr-2">
+    <div
+      class="pointer-events-none flex flex-col gap-3 overflow-auto pb-4 pr-2"
+    >
       <template v-if="todos.length">
-        <Todo v-for="(todo, index) in todos" :index :todo />
+        <Todo v-if="showSkeletonForNewTodo" :isSkeleton="true" />
+        <Todo
+          v-for="(todo, index) in todos"
+          :index
+          :todo
+          :class="
+            showSkeletonForNewTodo
+              ? 'pointer-events-none'
+              : 'pointer-events-auto'
+          "
+        />
       </template>
 
       <template v-else>
