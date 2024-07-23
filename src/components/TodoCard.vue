@@ -41,38 +41,40 @@ const handleOnDragLeave = (e) => {
 };
 </script>
 <template>
-  <div
-    :ondragenter="handleOnDragEnter"
-    :ondragover="handleOnDragOver"
-    :ondragleave="handleOnDragLeave"
-    :ondrop="handleOnDrop"
-    class="flex w-[360px] min-w-[360px] flex-col gap-6 rounded-lg bg-stone-400 px-4 py-4"
-  >
-    <div class="pointer-events-none text-xl font-medium">
-      {{ category_name }}
-    </div>
+  <div class="flex w-[360px] min-w-[360px]">
     <div
-      class="pointer-events-none flex flex-col gap-3 overflow-auto pb-4 pr-2"
+      :ondragenter="handleOnDragEnter"
+      :ondragover="handleOnDragOver"
+      :ondragleave="handleOnDragLeave"
+      :ondrop="handleOnDrop"
+      class="flex h-fit max-h-full w-full flex-col gap-6 rounded-lg bg-stone-400 px-4 py-4"
     >
-      <template v-if="todos.length">
-        <Todo v-if="showSkeletonForNewTodo" :isSkeleton="true" />
-        <Todo
-          v-for="(todo, index) in todos"
-          :index
-          :todo
-          :class="
-            showSkeletonForNewTodo
-              ? 'pointer-events-none'
-              : 'pointer-events-auto'
-          "
-        />
-      </template>
+      <div class="pointer-events-none text-xl font-medium">
+        {{ category_name }}
+      </div>
+      <div
+        class="pointer-events-none flex flex-col gap-3 overflow-auto pb-4 pr-2"
+      >
+        <template v-if="todos.length">
+          <Todo v-if="showSkeletonForNewTodo" :isSkeleton="true" />
+          <Todo
+            v-for="(todo, index) in todos"
+            :index="index + 1"
+            :todo
+            :class="
+              showSkeletonForNewTodo
+                ? 'pointer-events-none'
+                : 'pointer-events-auto'
+            "
+          />
+        </template>
 
-      <template v-else>
-        <div class="rounded bg-stone-300 p-2 text-center">
-          No todos in this category
-        </div>
-      </template>
+        <template v-else>
+          <div class="rounded bg-stone-300 p-2 text-center">
+            No todos in this category
+          </div>
+        </template>
+      </div>
     </div>
   </div>
 </template>
